@@ -1,0 +1,26 @@
+{
+  "name": "back",
+  "version": "1.0.0",
+  "description": "backend for RoutineManager",
+  "main": "server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "knex:migrate": "knex --knexfile knexfile.js migrate:latest",
+    "knex:seed": "knex --knexfile knexfile.js seed:run",
+    "knex:rollback": "knex --knexfile knexfile.js migrate:rollback",
+    "knex:reboot": "knex --knexfile knexfile.js migrate:rollback && knex --knexfile knexfile.js migrate:latest && knex --knexfile knexfile.js seed:run",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Routine",
+    "Manager",
+    "Tasks"
+  ],
+  "author": "Carlos Rocha",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "knex": "^0.21.6",
+    "sqlite3": "^5.0.0"
+  }
+}
