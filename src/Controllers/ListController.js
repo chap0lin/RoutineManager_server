@@ -55,13 +55,25 @@ class ListController{
     }
     async create(request, response){
         const {day, month, year} = request.body
-        const isToday = await knex('days').select('*').where('id', '=', 1).andWhere('day', '=', day).andWhere('month', '=', month).andWhere('year', '=', year)
+        const isToday = await knex('days').select('*').where('id_user', '=', 1).andWhere('day', '=', day).andWhere('month', '=', month).andWhere('year', '=', year)
         console.log('OKay vamo la' + day)
         if(isToday.length > 0){//insert tomorrow
+            response.send('Data já definida')
+            // const tomorrow = new Date()
+            // tomorrow.setDate(tomorrow.getDate()+1)
+            
+            // const daysId = await trx('days').insert({
+            //     id_user: 1,
+            //     day: tomorrow.getDay(),
+            //     month: `${tomorrow.getMonth()+1}`,
+            //     year: tomorrow.getFullYear()
+            // })
+            console.log("Data ja definida")
+        }else{//insert today
             const trx = await knex.transaction();
             const daysId = await trx('days').insert({
                 id_user: 1,
-                day: `${parseInt(day)+1}`,
+                day,
                 month,
                 year
             })
@@ -113,11 +125,63 @@ class ListController{
                 }
             ])
             await trx.commit()
-            console.log("dale")
-        }else{//insert today
-
+            response.sendStatus(200)
         }
-        response.sendStatus(200)
+    }
+    async show(request, response){
+        const {id} = request.params
+        const test = [
+            {
+                id: 1,
+                title: "Item 1 da rotina",
+                status: 0,
+                newItem: '',
+                subitems: [
+                    {
+                        id: 1,
+                        title: "Subitem 1 do item 1",
+                        status: 0
+                    },
+                    {
+                        id: 2,
+                        title: "Subitem 2 do item 1",
+                        status: 1
+                    }
+                ]
+            },
+            {
+                id: 2,
+                title: "Item 2 da rotina",
+                status: 0,
+                newItem: '',
+                subitems: [
+                    {
+                        id: 3,
+                        title: "Subitem 1 do item 2",
+                        status: 0
+                    },
+                    {
+                        id: 4,
+                        title: "Subitem 2 do item 2",
+                        status: 0
+                    }
+                ]
+            }
+        ]
+
+        //consultar rotinas
+        //consultar todos os tasks
+        //pra cada task pegar as subtasks
+        
+        const day = await knex('days').where('id', '=', id).first()
+
+        if(!day)
+            return response.status(400).json({message: 'day not found.'})
+
+        
+        return response.json({
+            message: `Subtask ${id} Deleted`
+        })
     }
 }
 module.exports = ListController
