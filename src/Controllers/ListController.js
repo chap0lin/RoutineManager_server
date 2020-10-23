@@ -172,6 +172,14 @@ class ListController{
         //consultar rotinas
         //consultar todos os tasks
         //pra cada task pegar as subtasks
+
+        `select
+        b.id as id_task, b.title as t_task, b.status as t_status,
+        c.id as id_subtask, c.title as t_subtask, c.status as s_subtask
+        from routines a inner join task b on a.id_task = b.id left join subtask c on a.id_task = c.id_task
+        where a.id_day = 1;`
+            
+
         
         const day = await knex('days').where('id', '=', id).first()
 
