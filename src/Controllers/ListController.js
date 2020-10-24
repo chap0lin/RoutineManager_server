@@ -57,7 +57,7 @@ class ListController{
         const {day, month, year} = request.body
         const isToday = await knex('days').select('*').where('id_user', '=', 1).andWhere('day', '=', day).andWhere('month', '=', month).andWhere('year', '=', year)
         console.log('OKay vamo la' + day)
-        if(isToday.length > 0){//insert tomorrow
+        if(isToday.length > 0){//insert tomorro
             response.send('Data já definida')
             // const tomorrow = new Date()
             // tomorrow.setDate(tomorrow.getDate()+1)
